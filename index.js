@@ -57,17 +57,22 @@ const audioClip = [
 
 
 function App(){
+
+    const[volume,setVolume] = React.useState(1);
+
     return(
         <div className="container bg-body min-vh-100 text-center">
             <h1>Drum Machine</h1>
              {audioClip.map((clip)=>(
-                <Pad key={clip.id} clip={clip}/> 
+                <Pad key={clip.id} clip={clip} volume={volume}/> 
              ))}   
+             <h3>Volume</h3>
+             <input type="range" step="0.01" onChange={e=> setVolume(e.target.value)} max="1" min="0" value={volume}/>
         </div>
     )
 }
 
-function Pad ({clip}){
+function Pad ({clip,volume }){
 
     React.useEffect(() => {
       document.addEventListener("keydown",handleKeyPress)
@@ -81,8 +86,10 @@ function Pad ({clip}){
           playSound();
         }
     }
+
     const playSound = ()=>{
         const audio = document.getElementById(clip.keyCode);
+        audio.volume=volume;
         audio.play();
     }
 
