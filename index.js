@@ -69,6 +69,18 @@ function App(){
 
 function Pad ({clip}){
 
+    React.useEffect(() => {
+      document.addEventListener("keydown",handleKeyPress)
+      return () => {
+        document.removeEventListener("keydown",handleKeyPress)
+      }
+    }, [])
+
+    const handleKeyPress= (e)=>{
+        if(e.keyCode==clip.keyCode){
+          playSound();
+        }
+    }
     const playSound = ()=>{
         const audio = document.getElementById(clip.keyCode);
         audio.play();
